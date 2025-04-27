@@ -2,6 +2,7 @@ from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 from dotenv import load_dotenv
 import os
+print("CWD =", os.getcwd())
 import openai
 import json
 from pathlib import Path
@@ -14,12 +15,17 @@ from oauth2client.service_account import ServiceAccountCredentials
 load_dotenv()
 client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# --- إعداد Google Sheets API ---
+# --- إعداد Google Sheets API باستخدام ملف الاعتماديات أو المتغيّر البيئي ---
 scope = [
     'https://spreadsheets.google.com/feeds',
     'https://www.googleapis.com/auth/drive'
 ]
-creds = ServiceAccountCredentials.from_json_keyfile_name('google_cred.json', scope)
+
+# استخدم متغيّر البيئة أولًا، وإذا لم يُعرّف استخدم الملف المحلي
+cred_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or 'google_cred.json'
+print("GOOGLE_APPLICATION_CREDENTIALS =", cred_path)
+creds = ServiceAccountCredentials.from_json_keyfile_name(cred_path, scope)
+
 client_gs = gspread.authorize(creds)
 sheet = client_gs.open('Appointments').sheet1
 # **انتهت إضافات Google Sheets**

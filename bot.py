@@ -41,7 +41,7 @@ knowledge_base = """
 الخدمات:
 - إعداد بوت واتساب ذكي باستخدام GPT.
 - ربط مع Twilio وخدمات النشر على Render.
-- الباقات تبدأ من 399 ريال شهريًا، حسب احتياج العميل.
+- الباقات تبدأ من 599 ريال شهريًا، حسب احتياج العميل.
 
 للتواصل: 0568604393
 0568995120
@@ -73,7 +73,7 @@ def whatsapp_reply():
         with open(session_file, 'r', encoding="utf-8") as f:
             trial_data = json.load(f)
 
-    if incoming_msg.lower() == "تجربة" and not trial_data.get("trial_active"):
+    if incoming_msg.lower() == "تجربه" and not trial_data.get("trial_active"):
         trial_data["trial_active"] = True
         trial_data["awaiting_business_name"] = True
         save_trial_session(session_file, trial_data)
